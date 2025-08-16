@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-12">
+    <form (ngSubmit)="onSubmitItem(shoppingListForm)" #shoppingListForm="ngForm">
+      <div class="row">
+        <div class="col-sm-5 form-group">
+            <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Ingredient Name" name="name" ngModel required>
+        </div>
+        <div class="col-sm-5 form-group">
+            <label for="amount">Amount</label>
+              <input type="number" class="form-control" id="amount" placeholder="Ingredient Amount" name="amount" ngModel
+               min="1">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-success" [disabled]="shoppingListForm.invalid">
+            {{ editMode ? 'Update' : 'Add' }}
+          </button>
+           <button type="button" class="btn btn-danger" (click)="onDeleteItem()" *ngIf="editMode">Delete</button>
+           <button type="button" class="btn btn-primary" (click)="onClear()">Clear</button>
+        </div>
+      </div>
+    </form>
+</div>

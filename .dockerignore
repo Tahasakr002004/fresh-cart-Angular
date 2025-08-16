@@ -1,0 +1,24 @@
+# Ignore node modules (they will be installed inside container)
+node_modules
+npm-debug.log
+
+
+
+# Ignore environment files (you can mount them separately if needed)
+.env
+.env.local
+.env.development
+.env.production
+
+# Ignore IDE and editor configs
+.vscode
+.idea
+*.swp
+
+# Ignore OS/system files
+.DS_Store
+Thumbs.db
+
+# Git-related
+.git
+.gitignore
