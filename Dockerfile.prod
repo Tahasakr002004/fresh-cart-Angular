@@ -1,10 +1,35 @@
+# Stage 1: Build Angular app
 FROM node:20-alpine AS build
 
+# Set working directory
 WORKDIR /app
+
+
+
+# Copy package files and install dependencies
 COPY package*.json ./
-RUN npm install -g @angular/cli firebase-tools && npm install
+RUN npm install
 
+# Copy source code
 COPY . .
-RUN ng build --configuration production
 
-# At the end, the dist folder will be ready for firebase deploy
+# Build Angular in production mode
+RUN npm run build -- --configuration production
+
+# Stage 2: Serve with Nginx
+FROM nginx:stable-alpine
+
+# Remove default Nginx static files
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy Angular build output to Nginx folder
+COPY --from=build /app/dist/fresh-cart/browser /usr/share/nginx/html
+
+# Copy custom Nginx config if needed
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
